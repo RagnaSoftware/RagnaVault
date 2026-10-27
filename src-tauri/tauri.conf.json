@@ -29,8 +29,24 @@
     "active": true,
     "targets": ["nsis"],
     "publisher": "RagnaSoftware",
-    "copyright": "© 2026 RagnaSoftware",
+    "copyright": "© 2026 RagnaSoftware - RagnaSoftware Generallizenz",
     "shortDescription": "Passwort-Manager und 2FA-Authenticator",
+    "longDescription": "RagnaVault ist ein lokaler Passwort-Manager mit integriertem 2FA-Authenticator. Tresore werden mit Argon2id und XChaCha20-Poly1305 auf dem Gerät verschlüsselt.",
+    "category": "Utility",
+    "licenseFile": "installer/LIZENZ.txt",
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "headerImage": "installer/header.bmp",
+        "sidebarImage": "installer/sidebar.bmp",
+        "installMode": "both",
+        "languages": ["German", "English"],
+        "displayLanguageSelector": false,
+        "startMenuFolder": "RagnaSoftware",
+        "compression": "lzma"
+      }
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

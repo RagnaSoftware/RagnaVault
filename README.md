@@ -1,28 +1,77 @@
-# RagnaVault
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="src/logo-text-dark.png">
+    <img src="src/logo-text-light.png" alt="RagnaVault" height="72">
+  </picture>
+</p>
 
-Passwort-Manager und 2FA-Authenticator für Windows von RagnaSoftware, gebaut mit Rust und Tauri 2.
-Alles bleibt lokal; die Tresor-Datei verlässt das Gerät nicht.
+<p align="center">
+  <b>Passwort-Manager und 2FA-Authenticator für Windows – lokal, verschlüsselt, ohne Konto.</b><br>
+  von <a href="https://ragnasoftware.net">RagnaSoftware</a>
+</p>
 
-Version 3.0.0 · Nutzung unter der [RagnaSoftware Generallizenz](https://ragnasoftware.net/lizenz/).
-Beim ersten Start muss der Lizenz zugestimmt werden; bei einer neuen Lizenzversion fragt die App erneut.
+<p align="center">
+  <a href="https://github.com/RagnaSoftware/RagnaVault/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/RagnaSoftware/RagnaVault?label=Version&color=4b5ff0"></a>
+  <img alt="Plattform" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4">
+  <img alt="Rust + Tauri" src="https://img.shields.io/badge/Rust-Tauri%202-b7410e">
+  <a href="https://ragnasoftware.net/lizenz/"><img alt="Lizenz" src="https://img.shields.io/badge/Lizenz-RagnaSoftware%20Generallizenz-6d4bf0"></a>
+</p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/uebersicht-hell.png">
+    <img src="docs/screenshots/uebersicht.png" alt="RagnaVault – Übersicht" width="900">
+  </picture>
+</p>
+
+---
+
+## Download
+
+Die aktuelle Version gibt es unter **[Releases](https://github.com/RagnaSoftware/RagnaVault/releases/latest)**:
+
+| Datei | Wofür |
+|---|---|
+| `RagnaVault_3.0.0_x64-setup.exe` | Installer mit Startmenü-Eintrag und Deinstallation – wahlweise nur für dich oder für alle Benutzer |
+| `RagnaVault_3.0.0_x64_portable.exe` | Einzelne exe ohne Installation, z. B. für einen USB-Stick |
+
+Voraussetzung ist Windows 10 oder 11 (64 Bit). Die benötigte WebView2-Laufzeit ist bei Windows 11 dabei; der Installer lädt sie bei Bedarf automatisch nach.
+
+> **Hinweis zu SmartScreen:** Die exe ist (noch) nicht code-signiert. Windows zeigt deshalb beim ersten Start eventuell „Der Computer wurde durch Windows geschützt“. Über **Weitere Informationen → Trotzdem ausführen** startet RagnaVault. Die SHA-256-Prüfsummen stehen in den Release-Notizen.
 
 ## Funktionen
 
-- Logins (Benutzername, Passwort, URL, Notizen), sichere Notizen, eigenständige 2FA-Einträge
-- TOTP nach RFC 6238 (SHA-1/256/512, 6–8 Ziffern, frei wählbares Intervall), Import per `otpauth://`-Link
-- Passwort-Generator ohne Modulo-Bias (Rejection Sampling über den OS-Zufall)
+**Tresor**
+- Logins mit Benutzername, Passwort, Website und Notizen, sichere Notizen, eigenständige 2FA-Einträge
+- Mehrere Tresore mit jeweils eigenem Master-Passwort – wählen, umbenennen und anlegen direkt am Sperrbildschirm
 - Suche, Favoriten, Filter, Schnellkopie direkt aus der Liste, vollständige Tastaturbedienung
-- Sicherheitsbericht: schwache, mehrfach verwendete und alte Passwörter, Logins ohne 2FA
-- Passwortverlauf (die letzten 10 Passwörter je Eintrag)
-- Zwischenablage wird nach einstellbarer Zeit geleert und nicht in den Windows-Verlauf (Win+V) übernommen
-- Automatische Sperre bei Inaktivität, optional beim Minimieren, Sperren mit Strg+L
-- Fensterinhalt ist für Screenshots, Aufnahmen und Fernwartung gesperrt (abschaltbar)
-- Nach drei falschen Master-Passwörtern wachsende Wartezeit (2 s … 5 min)
-- Master-Passwort ändern, ohne den Tresor neu zu verschlüsseln
-- Mehrere Tresore mit eigenen Master-Passwörtern; wählen, umbenennen, anlegen über den Sperrbildschirm
-- Notfall-Passwort (Duress) pro Tresor: löscht den Tresor unwiderruflich und öffnet einen leeren
+- Passwortverlauf: die letzten 10 Passwörter je Eintrag
 
-## Kryptografie
+**2FA-Authenticator**
+- TOTP nach RFC 6238 (SHA-1/256/512, 6–8 Ziffern, frei wählbares Intervall) mit Live-Countdown
+- Import per `otpauth://`-Link – einzeln im Editor oder viele auf einmal; Code-Vorschau beim Eingeben des Secrets
+
+**Sicherheit**
+- Sicherheitsbericht: schwache, mehrfach verwendete und alte Passwörter, Logins ohne 2FA
+- Passwort-Generator ohne Modulo-Bias, mit Stärkeanzeige
+- Zwischenablage wird nach einstellbarer Zeit geleert und landet nicht im Windows-Verlauf (Win + V)
+- Automatische Sperre bei Inaktivität, optional beim Minimieren
+- Fensterinhalt ist für Screenshots, Bildschirmaufnahmen und Fernwartung gesperrt (abschaltbar)
+- Wachsende Wartezeit nach falschen Master-Passwörtern (2 s bis 5 min)
+- **Notfall-Passwort (Duress) pro Tresor** – siehe unten
+
+## Screenshots
+
+| | |
+|:---:|:---:|
+| <img src="docs/screenshots/entsperren.png" alt="Entsperren"><br>**Entsperren** – mit Tresor-Auswahl unten rechts | <img src="docs/screenshots/sicherheit.png" alt="Sicherheitsbericht"><br>**Sicherheitsbericht** |
+| <img src="docs/screenshots/bearbeiten.png" alt="Eintrag bearbeiten"><br>**Bearbeiten** – mit Stärkeanzeige und 2FA-Vorschau | <img src="docs/screenshots/generator.png" alt="Passwort-Generator"><br>**Passwort-Generator** |
+| <img src="docs/screenshots/tresore.png" alt="Tresore verwalten"><br>**Mehrere Tresore** | <img src="docs/screenshots/einstellungen.png" alt="Einstellungen"><br>**Einstellungen** – Notfall-Passwort, Über |
+| <img src="docs/screenshots/lizenz.png" alt="Lizenzdialog"><br>**Erster Start** – Zustimmung zur Generallizenz | <img src="docs/screenshots/animation.jpg" alt="Übergangsanimation"><br>**Übergang** – die Lizenzkarte wird zur Tresortür |
+
+<sub>Alle Screenshots zeigen Beispieldaten.</sub>
+
+## So schützt RagnaVault deine Daten
 
 ```
 Master-Passwort + Salt ──Argon2id (64 MiB, 3 Durchläufe)──► KEK
@@ -30,55 +79,68 @@ KEK ──XChaCha20-Poly1305──► verpackter DEK (32 Byte, einmalig zufälli
 DEK ──XChaCha20-Poly1305──► Tresor-Inhalt
 ```
 
-- Ein falsches Passwort scheitert am Auth-Tag des verpackten DEK – kein Klartext-Orakel.
-- Die Revision liegt unverschlüsselt in der Datei, ist aber Teil der AAD des Inhalts und damit manipulationssicher.
-  Sie dient später als Konfliktzähler für eine Synchronisierung.
-- Speichern ist atomar (temporäre Datei + Umbenennen); die vorige Version bleibt als `vault.rvault.bak`.
-- Entschlüsselte Einträge und Schlüssel werden beim Sperren im Speicher überschrieben (`zeroize`).
-- Die Oberfläche bekommt für die Liste nur Zusammenfassungen. Passwörter, TOTP-Secrets und Notizen
-  werden einzeln angefordert, wenn man sie anzeigt; Kopieren passiert direkt in Rust. Angezeigte
-  Passwörter verschwinden nach 20 s wieder.
-- Links öffnen nur über Rust im Standardbrowser, und nur `http`/`https`.
-- **Notfall-Passwort:** Jede Datei enthält ein zweites Schlüssel-Fach (`alt`), ohne Notfall-Passwort
-  mit gleich langen Zufallsdaten gefüllt – ob eins existiert, ist der Datei nicht anzusehen. Beide Fächer
-  hängen am selben Salt, ein Entsperrversuch kostet also immer genau eine Argon2-Ableitung. Passt das
-  Notfall-Passwort, werden `*.rvault`, `.bak` und `.tmp` mit Zufall überschrieben und gelöscht, dann wird
-  ein leerer Tresor mit diesem Passwort angelegt. Grenzen: Auf SSDs garantiert Überschreiben nicht, dass
-  alte Blöcke physisch weg sind, und eine vorher kopierte Datei bleibt natürlich lesbar.
-  Beim Ändern des Master-Passworts bleibt das Salt erhalten, damit das Notfall-Passwort gültig bleibt.
-- Das Master-Passwort ist **nicht wiederherstellbar**.
+- **Zero-Knowledge:** Verschlüsselt wird ausschließlich auf dem Gerät. Das Master-Passwort wird nie gespeichert oder übertragen.
+- **Kein Klartext-Orakel:** Ein falsches Passwort scheitert am Auth-Tag des verpackten DEK.
+- **Manipulationsschutz:** Die Revision der Datei ist Teil der AAD des Inhalts und lässt sich nicht unbemerkt ändern.
+- **Sicheres Speichern:** atomar über eine temporäre Datei, die vorige Version bleibt als `.bak`.
+- **Wenig Angriffsfläche:** Die Oberfläche bekommt für die Liste nur Zusammenfassungen. Passwörter, Secrets und Notizen werden einzeln angefordert, Kopieren passiert direkt in Rust, angezeigte Passwörter verschwinden nach 20 s. Entschlüsselte Daten werden beim Sperren im Speicher überschrieben (`zeroize`). Strikte CSP, kein `innerHTML`; Links öffnen nur als `http`/`https` im Standardbrowser.
+- **Master-Passwort ändern**, ohne den Tresor neu zu verschlüsseln (nur der DEK wird neu verpackt).
 
-Speicherort: `%APPDATA%\net.ragnasoftware.ragnavault\` – `vaults.json` (Liste mit Namen),
-je Tresor eine `vault-<id>.rvault` (der erste heißt `vault.rvault`), dazu `license.json`.
-Ein Tresor aus der Zeit vor der Umbenennung (`%APPDATA%\de.tresor.desktop\`) wird beim ersten Start kopiert.
+> Das Master-Passwort ist **nicht wiederherstellbar** – weder von dir noch von RagnaSoftware. Das ist Absicht.
 
-## Entwickeln
+### Notfall-Passwort (Duress)
 
-Voraussetzungen: Rust (stable), Node.js, WebView2 (in Windows 10/11 enthalten).
+Für den Fall, dass dich jemand zwingt, deinen Tresor zu öffnen: Gibst du statt des Master-Passworts das Notfall-Passwort ein, wird **der Tresor sofort unwiderruflich gelöscht** und ein leerer Tresor geöffnet.
+
+- Jede Tresor-Datei enthält immer ein zweites Schlüssel-Fach. Ohne Notfall-Passwort ist es mit gleich langen Zufallsdaten gefüllt – ob eins existiert, ist der Datei nicht anzusehen.
+- Beide Fächer hängen am selben Salt; ein Entsperrversuch kostet immer genau eine Argon2-Ableitung, egal welches Passwort passt.
+- Tresor-Datei, Backup und Zwischenstände werden mit Zufallsdaten überschrieben und gelöscht.
+- Grenzen: Auf SSDs garantiert Überschreiben nicht, dass alte Blöcke physisch verschwinden – und eine vorher kopierte Datei bleibt lesbar.
+
+Einrichten unter **Einstellungen → Notfall-Passwort**, getrennt für jeden Tresor.
+
+## Tastenkürzel
+
+| Kürzel | Aktion | Kürzel | Aktion |
+|---|---|---|---|
+| `Strg F` | Suchen | `Strg C` | Passwort kopieren |
+| `↑` `↓` | Eintrag wählen | `Strg B` | Benutzername kopieren |
+| `Strg N` | Neuer Login | `Strg T` | 2FA-Code kopieren |
+| `Strg E` | Bearbeiten | `Strg S` | Speichern (Editor) |
+| `Strg G` | Generator | `Entf` | Löschen |
+| `Strg L` | Sperren | `Esc` | Abbrechen |
+
+## Daten und Sicherung
+
+Alles liegt unter `%APPDATA%\net.ragnasoftware.ragnavault\`:
+
+| Datei | Inhalt |
+|---|---|
+| `vaults.json` | Liste der Tresore (Namen, Dateinamen) |
+| `vault.rvault`, `vault-<id>.rvault` | je ein verschlüsselter Tresor, daneben `.bak` als vorige Version |
+| `license.json` | Zustimmung zur Generallizenz (Version, Zeitpunkt) |
+
+Zur Sicherung einfach die `.rvault`-Dateien kopieren – ohne Master-Passwort sind sie wertlos.
+
+## Selbst bauen
+
+Voraussetzungen: [Rust](https://rustup.rs) (stable), [Node.js](https://nodejs.org), WebView2 (in Windows 10/11 enthalten).
 
 ```sh
 npm install
-npx tauri dev     # App im Entwicklungsmodus
-npm test          # Rust-Unit-Tests (u. a. RFC-6238-Testvektoren)
-npx tauri build   # portable exe + Installer
+npx tauri dev      # Entwicklungsmodus
+npm test           # Rust-Tests, u. a. RFC-6238-Testvektoren und Duress
+npx tauri build    # Release: portable exe + Installer
 ```
 
-Ergebnis: `src-tauri/target/release/ragnavault.exe` (portabel) und
-`src-tauri/target/release/bundle/nsis/RagnaVault_3.0.0_x64-setup.exe`.
+Ergebnis: `src-tauri/target/release/ragnavault.exe` und `src-tauri/target/release/bundle/nsis/RagnaVault_3.0.0_x64-setup.exe`.
 
-Hinweis: In PowerShell mit eingeschränktem Sprachmodus funktioniert `npm.ps1` nicht –
-dann `npx.cmd` verwenden oder Git Bash.
+> In PowerShell mit eingeschränktem Sprachmodus funktioniert `npm.ps1` nicht – dann `npx.cmd` verwenden oder Git Bash.
 
-## Logos
+<details>
+<summary><b>Projektaufbau</b></summary>
 
-Quelldateien liegen in `assets/logo/`. Daraus erzeugt:
-`src/logo-icon.png`, `src/logo-text-dark.png` (helles „Ragna“, dunkles Design),
-`src/logo-text-light.png` (schwarzes „Ragna“, helles Design) und die App-Icons unter `src-tauri/icons/`
-(`npx tauri icon <quadratisches PNG>`).
-
-## Aufbau
-
-| Datei | Inhalt |
+| Pfad | Inhalt |
 |---|---|
 | `src-tauri/src/crypto.rs` | Argon2id, XChaCha20-Poly1305, Schlüsseltypen |
 | `src-tauri/src/vault.rs` | Dateiformat, Sitzung, Einträge, Notfall-Passwort |
@@ -88,4 +150,18 @@ Quelldateien liegen in `assets/logo/`. Daraus erzeugt:
 | `src-tauri/src/strength.rs` | Stärke-Schätzung für Anzeige und Bericht |
 | `src-tauri/src/license.rs` | Zustimmung zur Generallizenz |
 | `src-tauri/src/commands.rs` | Tauri-Befehle, Zwischenablage |
-| `src/` | Oberfläche (HTML/CSS/JS ohne Build-Schritt, strikte CSP, kein `innerHTML`) |
+| `src-tauri/installer/` | Installer-Grafiken und Lizenztext |
+| `src/` | Oberfläche (HTML/CSS/JS ohne Build-Schritt) |
+| `assets/logo/` | Original-Logos |
+
+Logos für die Oberfläche (`src/logo-*.png`) und die App-Icons (`src-tauri/icons/`, via `npx tauri icon`) werden aus `assets/logo/` erzeugt. `darkmode logo mit text.png` hat ein schwarzes „Ragna“ und wird im **hellen** Design verwendet.
+
+</details>
+
+## Lizenz
+
+RagnaVault wird unter der **[RagnaSoftware Generallizenz](https://ragnasoftware.net/lizenz/)** (Version 1.0, gültig ab 25. Oktober 2026) bereitgestellt. Private, nicht-kommerzielle Nutzung ist erlaubt; kommerzielle Nutzung nur mit vorheriger Erlaubnis von RagnaSoftware. Verbindlich ist der vollständige deutsche Lizenztext.
+
+Komponenten Dritter (u. a. Tauri, RustCrypto) unterliegen ihren eigenen Open-Source-Lizenzen.
+
+© 2026 RagnaSoftware · [ragnasoftware.net](https://ragnasoftware.net)

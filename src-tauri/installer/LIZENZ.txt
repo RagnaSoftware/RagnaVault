@@ -1,0 +1,23 @@
+﻿RagnaVault 3.0.0
+© 2026 RagnaSoftware
+
+RAGNASOFTWARE GENERALLIZENZ
+Version 1.0 · gültig ab 25. Oktober 2026
+
+Für RagnaVault gilt die RagnaSoftware Generallizenz. Mit der Installation, dem Aufruf oder der Nutzung dieser Software stimmst du ihr zu (§ 3 Abs. 1). Stimmst du nicht zu, darfst du die Software nicht nutzen.
+
+Verbindlich ist ausschließlich der vollständige deutsche Lizenztext:
+https://ragnasoftware.net/lizenz/
+
+Kurzfassung (ersetzt nicht den vollständigen Text):
+
+  • Private, nicht-kommerzielle Nutzung ist erlaubt. Kommerzielle Nutzung nur mit vorheriger Erlaubnis von RagnaSoftware in Textform.
+
+  • Kostenlose Software wird bereitgestellt, wie sie ist. Lege selbst Sicherungen deiner Daten an.
+
+  • Es gilt österreichisches Recht. Zwingende Verbraucherschutzrechte bleiben unberührt.
+
+Hinweis zu RagnaVault:
+Das Master-Passwort deiner Tresore wird nirgends gespeichert und kann nicht wiederhergestellt werden – weder von dir noch von RagnaSoftware. Wer es vergisst, verliert den Zugriff auf die Daten.
+
+Komponenten Dritter (u. a. Tauri, RustCrypto) unterliegen ihren eigenen Open-Source-Lizenzen (§ 10).
