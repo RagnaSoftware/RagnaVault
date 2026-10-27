@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RagnaVault</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+
+<!-- Icons (Linienstil, 24er Raster) -->
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.24A9 9 0 0 1 12 4c6.5 0 10 8 10 8a17 17 0 0 1-2.16 3.19M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24M3 3l18 18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8M17 6l3 3M14.5 8.5l2.5 2.5"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M14 2H6.5A2.5 2.5 0 0 0 4 4.5v15A2.5 2.5 0 0 0 6.5 22h11a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="8"/><path d="M12 9.5v4l2.5 2M10 2h4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.8 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.6l-5.8 3 1.1-6.4-4.7-4.6 6.5-.9z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r=".6"/><circle cx="15.5" cy="15.5" r=".6"/><circle cx="12" cy="12" r=".6"/><circle cx="15.5" cy="8.5" r=".6"/><circle cx="8.5" cy="15.5" r=".6"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6M18.5 6l-.9 13.6A2.5 2.5 0 0 1 15.1 22H8.9a2.5 2.5 0 0 1-2.5-2.4L5.5 6M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/><path d="m14.5 5.5 3 3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3.5 2"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5a14.5 14.5 0 0 1 0 19M12 2.5a14.5 14.5 0 0 0 0 19"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-import" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M18 13h.01M10 13h4M7 16h10"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.5h7.5A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 16.5v-5M12 7.5h.01"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 7a3.5 3.5 0 0 0 6 0zM19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+
+<!-- Ersteinrichtung -->
+<section id="screen-setup" class="gate" hidden>
+  <div class="gate-card">
+    <div class="gate-brand">
+      <div class="wordmark" role="img" aria-label="RagnaVault"></div>
+      <div class="brand-tag">Passwörter &amp; 2FA · lokal verschlüsselt</div>
+    </div>
+    <form id="setup-form" autocomplete="off">
+      <h1 id="setup-title">Master-Passwort festlegen</h1>
+      <p class="muted">Es schützt alles im Tresor, verlässt dieses Gerät nie und wird nirgends gespeichert.</p>
+      <label class="field">
+        <span>Name des Tresors</span>
+        <input type="text" id="setup-name" required maxlength="40" value="Mein Tresor" spellcheck="false">
+      </label>
+      <label class="field">
+        <span>Master-Passwort</span>
+        <div class="input-wrap">
+          <input type="password" id="setup-pw" required minlength="10" autofocus spellcheck="false">
+          <button type="button" class="icon-btn" data-reveal="setup-pw" title="Anzeigen"></button>
+        </div>
+      </label>
+      <div class="meter" id="setup-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <ul class="reqs">
+        <li id="req-len">Mindestens 10 Zeichen</li>
+        <li id="req-strength">Schwer zu erraten – z. B. vier zufällige Wörter</li>
+      </ul>
+      <label class="field">
+        <span>Wiederholen</span>
+        <div class="input-wrap">
+          <input type="password" id="setup-pw2" required minlength="10" spellcheck="false">
+        </div>
+      </label>
+      <p class="caps" hidden>Feststelltaste ist aktiv</p>
+      <div class="callout warn">
+        <svg class="i"><use href="#i-alert"/></svg>
+        <div><strong>Nicht wiederherstellbar.</strong> Wer das Master-Passwort vergisst, kommt nie wieder an die Daten – auch nicht mit Hilfe des Herstellers.</div>
+      </div>
+      <label class="check"><input type="checkbox" id="setup-ack" required> Ich habe das verstanden</label>
+      <p class="error" id="setup-error" role="alert"></p>
+      <button class="btn primary wide" type="submit" id="setup-submit">Tresor erstellen</button>
+    </form>
+  </div>
+  <p class="gate-foot">Argon2id · XChaCha20-Poly1305 · Zero-Knowledge</p>
+  <button type="button" class="gate-corner" id="setup-back" hidden>Zurück zum Entsperren</button>
+</section>
+
+<!-- Entsperren -->
+<section id="screen-unlock" class="gate" hidden>
+  <div class="gate-card">
+    <div class="gate-brand">
+      <div class="wordmark" role="img" aria-label="RagnaVault"></div>
+      <div class="brand-tag"><svg class="i sm"><use href="#i-lock"/></svg><span id="unlock-vault-name">Tresor</span> · gesperrt</div>
+    </div>
+    <form id="unlock-form" autocomplete="off">
+      <label class="field">
+        <span>Master-Passwort</span>
+        <div class="input-wrap big">
+          <svg class="i lead"><use href="#i-lock"/></svg>
+          <input type="password" id="unlock-pw" required autofocus spellcheck="false">
+          <button type="button" class="icon-btn" data-reveal="unlock-pw" title="Anzeigen"></button>
+        </div>
+      </label>
+      <p class="caps" hidden>Feststelltaste ist aktiv</p>
+      <p class="error" id="unlock-error" role="alert"></p>
+      <button class="btn primary wide" type="submit" id="unlock-submit">Entsperren</button>
+    </form>
+  </div>
+  <p class="gate-foot">Das Master-Passwort wird nur lokal verwendet.</p>
+  <button type="button" class="gate-corner" id="vault-corner">Neuen Tresor anlegen</button>
+</section>
+
+<!-- Hauptansicht -->
+<section id="screen-main" class="app" hidden>
+  <nav class="sidebar">
+    <div class="brand"><div class="wordmark" role="img" aria-label="RagnaVault"></div><div class="vault-name" id="sidebar-vault-name"></div></div>
+    <div class="nav-label">Tresor</div>
+    <ul class="nav" id="filters"></ul>
+    <div class="nav-label">Werkzeuge</div>
+    <ul class="nav">
+      <li><button class="nav-btn" id="btn-generator" type="button"><svg class="i"><use href="#i-dice"/></svg><span>Generator</span></button></li>
+      <li><button class="nav-btn" id="btn-settings" type="button"><svg class="i"><use href="#i-sliders"/></svg><span>Einstellungen</span></button></li>
+      <li><button class="nav-btn" id="btn-shortcuts" type="button"><svg class="i"><use href="#i-keyboard"/></svg><span>Tastenkürzel</span></button></li>
+    </ul>
+    <div class="sidebar-foot">
+      <button class="btn lock-btn" id="btn-lock" type="button"><svg class="i"><use href="#i-lock"/></svg><span>Sperren</span><kbd>Strg L</kbd></button>
+      <p class="autolock-hint" id="autolock-hint"></p>
+    </div>
+  </nav>
+
+  <div class="list-pane">
+    <div class="list-head">
+      <label class="search">
+        <svg class="i"><use href="#i-search"/></svg>
+        <input type="search" id="search" placeholder="Suchen" autocomplete="off" spellcheck="false">
+        <kbd>Strg F</kbd>
+      </label>
+      <div class="menu-wrap">
+        <button class="btn primary square" id="btn-new" type="button" title="Neuer Eintrag (Strg N)" aria-haspopup="true"><svg class="i"><use href="#i-plus"/></svg></button>
+        <div class="menu" id="new-menu" hidden>
+          <button type="button" data-new="login"><svg class="i"><use href="#i-key"/></svg><span>Login</span><kbd>Strg N</kbd></button>
+          <button type="button" data-new="totp"><svg class="i"><use href="#i-timer"/></svg><span>2FA-Code</span></button>
+          <button type="button" data-new="note"><svg class="i"><use href="#i-note"/></svg><span>Sichere Notiz</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="list-title"><span id="list-title"></span><span id="list-count"></span></div>
+    <ul class="entries" id="entries" role="listbox" aria-label="Einträge"></ul>
+    <div class="empty" id="empty-list" hidden></div>
+  </div>
+
+  <main class="detail" id="detail"></main>
+</section>
+
+<!-- Generator -->
+<dialog id="dlg-generator">
+  <form method="dialog" class="dialog-body" id="gen-form">
+    <div class="dialog-head">
+      <h2>Passwort-Generator</h2>
+      <button class="icon-btn" value="close" title="Schließen"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="gen-output">
+      <output id="gen-output" class="pw"></output>
+      <button class="icon-btn" type="button" id="gen-refresh" title="Neu erzeugen" autofocus><svg class="i"><use href="#i-refresh"/></svg></button>
+    </div>
+    <div class="meter" id="gen-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="hint" id="gen-entropy"></p>
+    <div class="gen-length">
+      <span>Länge</span>
+      <input type="range" id="gen-length" min="8" max="64" value="20">
+      <output id="gen-length-label">20</output>
+    </div>
+    <div class="toggles">
+      <label class="switch"><input type="checkbox" id="gen-lower" checked><i></i>Kleinbuchstaben <code>a–z</code></label>
+      <label class="switch"><input type="checkbox" id="gen-upper" checked><i></i>Großbuchstaben <code>A–Z</code></label>
+      <label class="switch"><input type="checkbox" id="gen-digits" checked><i></i>Ziffern <code>0–9</code></label>
+      <label class="switch"><input type="checkbox" id="gen-symbols" checked><i></i>Sonderzeichen <code>!@#</code></label>
+      <label class="switch"><input type="checkbox" id="gen-ambiguous"><i></i>Verwechselbare vermeiden <code>Il1O0</code></label>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn" type="button" id="gen-copy"><svg class="i"><use href="#i-copy"/></svg><span>Kopieren</span></button>
+      <button class="btn primary" type="button" id="gen-use" hidden><svg class="i"><use href="#i-check"/></svg><span>Übernehmen</span></button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Einstellungen -->
+<dialog id="dlg-settings" class="wide">
+  <div class="dialog-body">
+    <div class="dialog-head">
+      <h2>Einstellungen</h2>
+      <button class="icon-btn" type="button" id="settings-close" title="Schließen"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+
+    <section class="set-group">
+      <h3><svg class="i"><use href="#i-shield"/></svg>Sicherheit</h3>
+      <div class="set-row">
+        <div><b>Automatisch sperren</b><p class="hint">Nach dieser Zeit ohne Eingabe</p></div>
+        <select id="set-autolock">
+          <option value="1">1 Minute</option>
+          <option value="5">5 Minuten</option>
+          <option value="15">15 Minuten</option>
+          <option value="60">1 Stunde</option>
+          <option value="0">Nie</option>
+        </select>
+      </div>
+      <div class="set-row">
+        <div><b>Zwischenablage leeren</b><p class="hint">Kopierte Werte werden danach entfernt</p></div>
+        <select id="set-clip">
+          <option value="15">nach 15 s</option>
+          <option value="30">nach 30 s</option>
+          <option value="90">nach 90 s</option>
+          <option value="0">Nie</option>
+        </select>
+      </div>
+      <label class="set-row">
+        <div><b>Beim Minimieren sperren</b><p class="hint">Sperrt sofort, wenn das Fenster minimiert wird</p></div>
+        <span class="switch"><input type="checkbox" id="set-minimize"><i></i></span>
+      </label>
+      <label class="set-row">
+        <div><b>Bildschirmaufnahmen blockieren</b><p class="hint">Fenster erscheint in Screenshots, Aufnahmen und Fernwartung schwarz</p></div>
+        <span class="switch"><input type="checkbox" id="set-protect"><i></i></span>
+      </label>
+    </section>
+
+    <section class="set-group">
+      <h3><svg class="i"><use href="#i-key"/></svg>Master-Passwort ändern</h3>
+      <form id="master-form" autocomplete="off">
+        <label class="field"><span>Aktuelles Passwort</span><input type="password" id="master-old" required></label>
+        <div class="row2">
+          <label class="field"><span>Neues Passwort</span><input type="password" id="master-new" required minlength="10"></label>
+          <label class="field"><span>Wiederholen</span><input type="password" id="master-new2" required minlength="10"></label>
+        </div>
+        <div class="meter" id="master-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <p class="error" id="master-error" role="alert"></p>
+        <button class="btn" type="submit" id="master-submit">Passwort ändern</button>
+      </form>
+    </section>
+
+    <section class="set-group">
+      <h3><svg class="i"><use href="#i-alert"/></svg>Notfall-Passwort (Duress)</h3>
+      <p class="hint">Gibst du statt des Master-Passworts dieses Passwort ein, wird <b>dieser Tresor sofort unwiderruflich gelöscht</b> und ein leerer Tresor geöffnet – für den Fall, dass dich jemand zum Entsperren zwingt. An der Tresor-Datei ist nicht erkennbar, ob ein Notfall-Passwort existiert.</p>
+      <p class="duress-state" id="duress-state"></p>
+      <form id="duress-form" autocomplete="off">
+        <label class="field"><span>Master-Passwort zur Bestätigung</span><input type="password" id="duress-master" required></label>
+        <div class="row2" id="duress-new-fields">
+          <label class="field"><span>Notfall-Passwort</span><input type="password" id="duress-pw" minlength="10"></label>
+          <label class="field"><span>Wiederholen</span><input type="password" id="duress-pw2" minlength="10"></label>
+        </div>
+        <p class="error" id="duress-error" role="alert"></p>
+        <div class="btn-row">
+          <button class="btn" type="submit" id="duress-submit">Notfall-Passwort einrichten</button>
+          <button class="btn danger" type="button" id="duress-remove" hidden>Entfernen</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="set-group">
+      <h3><svg class="i"><use href="#i-import"/></svg>2FA importieren</h3>
+      <form id="import-form">
+        <label class="field">
+          <span>otpauth://-Links, einer pro Zeile</span>
+          <textarea id="import-text" rows="3" class="mono" spellcheck="false" placeholder="otpauth://totp/Dienst:name@mail.de?secret=…"></textarea>
+        </label>
+        <p class="error" id="import-error" role="alert"></p>
+        <button class="btn" type="submit">Importieren</button>
+      </form>
+    </section>
+
+    <section class="set-group">
+      <h3><svg class="i"><use href="#i-folder"/></svg>Speicherort</h3>
+      <p class="mono path" id="vault-path"></p>
+      <p class="hint">Sicherung: Diese Datei (und <code>vault.rvault.bak</code>) kopieren. Ohne Master-Passwort ist sie wertlos.</p>
+    </section>
+
+    <section class="set-group">
+      <h3><svg class="i"><use href="#i-info"/></svg>Über</h3>
+      <div class="about">
+        <img src="logo-icon.png" alt="" class="about-icon">
+        <div>
+          <b>RagnaVault <span id="about-version"></span></b>
+          <p class="hint">© 2026 RagnaSoftware</p>
+        </div>
+      </div>
+      <p class="hint" id="about-license"></p>
+      <a class="lic-link" id="about-license-link" href="https://ragnasoftware.net/lizenz/"><svg class="i"><use href="#i-external"/></svg>RagnaSoftware Generallizenz lesen</a>
+    </section>
+  </div>
+</dialog>
+
+<!-- Tastenkürzel -->
+<dialog id="dlg-shortcuts">
+  <form method="dialog" class="dialog-body">
+    <div class="dialog-head">
+      <h2>Tastenkürzel</h2>
+      <button class="icon-btn" value="close" title="Schließen"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <dl class="shortcuts">
+      <dt><kbd>Strg F</kbd></dt><dd>Suchen</dd>
+      <dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>Eintrag wählen</dd>
+      <dt><kbd>Strg N</kbd></dt><dd>Neuer Login</dd>
+      <dt><kbd>Strg C</kbd></dt><dd>Passwort kopieren</dd>
+      <dt><kbd>Strg B</kbd></dt><dd>Benutzername kopieren</dd>
+      <dt><kbd>Strg T</kbd></dt><dd>2FA-Code kopieren</dd>
+      <dt><kbd>Strg E</kbd></dt><dd>Bearbeiten</dd>
+      <dt><kbd>Strg S</kbd></dt><dd>Speichern (im Editor)</dd>
+      <dt><kbd>Entf</kbd></dt><dd>Löschen</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Abbrechen</dd>
+      <dt><kbd>Strg L</kbd></dt><dd>Sperren</dd>
+      <dt><kbd>Strg G</kbd></dt><dd>Generator</dd>
+    </dl>
+  </form>
+</dialog>
+
+<!-- Lizenz (erster Start und nach Lizenzänderungen) -->
+<dialog id="dlg-license" class="license">
+  <form method="dialog" class="dialog-body">
+    <div class="wordmark" role="img" aria-label="RagnaVault"></div>
+    <h2>Willkommen bei RagnaVault</h2>
+    <p class="lead">Mit der Nutzung dieser Software stimmst du der <b>RagnaSoftware Generallizenz</b> zu.</p>
+    <ul class="lic-points">
+      <li><svg class="i"><use href="#i-user"/></svg><span>Private, nicht-kommerzielle Nutzung ist erlaubt. Kommerzielle Nutzung nur mit vorheriger Erlaubnis von RagnaSoftware.</span></li>
+      <li><svg class="i"><use href="#i-shield"/></svg><span>Die kostenlose Software wird bereitgestellt, wie sie ist. Lege selbst Sicherungen deiner Daten an.</span></li>
+      <li><svg class="i"><use href="#i-scale"/></svg><span>Es gilt österreichisches Recht. Verbindlich ist die deutsche Fassung.</span></li>
+    </ul>
+    <p class="hint">Dies ist eine Kurzfassung – maßgeblich ist der vollständige Lizenztext.</p>
+    <a class="lic-link" href="https://ragnasoftware.net/lizenz/"><svg class="i"><use href="#i-external"/></svg><span>Generallizenz lesen · <span id="lic-meta"></span></span></a>
+    <label class="check lic-ack"><input type="checkbox" id="license-ack" autofocus> Ich habe die Generallizenz gelesen und stimme ihr zu.</label>
+    <div class="dialog-actions">
+      <button type="button" class="btn ghost" id="license-decline">Ablehnen &amp; beenden</button>
+      <button type="button" class="btn primary" id="license-accept" disabled><svg class="i"><use href="#i-check"/></svg><span>Zustimmen</span></button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Tresore verwalten -->
+<dialog id="dlg-vaults">
+  <div class="dialog-body">
+    <div class="dialog-head">
+      <h2>Tresore</h2>
+      <button class="icon-btn" type="button" id="vaults-close" title="Schließen"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <p class="hint">Wähle einen Tresor zum Entsperren oder lege einen neuen an.</p>
+    <ul class="vault-list" id="vault-list"></ul>
+    <p class="error" id="vaults-error" role="alert"></p>
+    <div class="dialog-actions">
+      <button class="btn primary" type="button" id="vaults-new"><svg class="i"><use href="#i-plus"/></svg><span>Neuer Tresor</span></button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Bestätigung -->
+<dialog id="dlg-confirm">
+  <form method="dialog" class="dialog-body">
+    <h2 id="confirm-title"></h2>
+    <p id="confirm-text" class="muted"></p>
+    <div class="dialog-actions">
+      <button class="btn" value="no">Abbrechen</button>
+      <button class="btn danger-solid" value="yes" id="confirm-yes"></button>
+    </div>
+  </form>
+</dialog>
+
+<div class="clip-pill" id="clip-pill" hidden>
+  <svg class="i"><use href="#i-copy"/></svg>
+  <span>Zwischenablage wird in <b id="clip-secs"></b> s geleert</span>
+  <button type="button" id="clip-clear">Jetzt leeren</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
